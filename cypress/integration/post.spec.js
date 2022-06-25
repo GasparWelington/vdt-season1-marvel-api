@@ -46,8 +46,62 @@ describe('POST / characters', function () {
         })
 
     })
+    context('Validar os campos obrigatórios para o cadastro do personagem', () => {
+        it('Validar a obrigatoriedade do nome', () => {
+            const character = {
+                alias: 'Homem de Ferro',
+                team: ['Vingadores'],
+                active: true,
+            }
 
+        });
+
+        it('Validar a obrigatoriedade do alias', () => {
+            const character = {
+                name: 'Tony Stark',
+                team: ['Vingadores'],
+                active: true,
+            };
+
+            cy.postCharacter(character)
+                .then((response) => {
+                    expect(response.status).to.eql(400);
+                    expect(response.body.validation.body.message).to.eql('\"alias\" is required');
+                });
+        });
+
+        it('Validar a obrigatoriedade do team', () => {
+            const character = {
+                name: 'Tony Stark',
+                alias: 'Homem de Ferro',
+                active: true,
+            };
+
+            cy.postCharacter(character)
+                .then((response) => {
+                    expect(response.status).to.eql(400);
+                    expect(response.body.validation.body.message).to.eql('\"team\" is required');
+                });
+        });
+
+        it('Validar a obrigatoriedade do active', () => {
+            const character = {
+                name: 'Tony Stark',
+                alias: 'Homem de Ferro',
+                team: ['Vingadores'],
+            };
+
+            cy.postCharacter(character)
+                .then((response) => {
+                    expect(response.status).to.eql(400);
+                    expect(response.body.validation.body.message).to.eql('\"active\" is required');
+                });
+        });
+    });
 });
+
+
+
 
 
 
